@@ -1,11 +1,9 @@
-# This is a test
-import app as application
+#!/usr/bin/python
+import sys
+import logging
+from catalog import app as application
 
-# def application(environ, start_response):
-#    status = '200 OK'
-#    output = 'Hello World!'
-#
-#    response_headers = [('Content-type', 'text/plain'), ('Content-Length', str(len(output)))]
-#    start_response(status, response_headers)
-#
-#    return [output]
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0, "/var/www/app/app")
+
+application.secret_key = 'supersecretkey'
