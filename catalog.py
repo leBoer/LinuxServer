@@ -19,7 +19,7 @@ import string
 app = Flask(__name__)
 
 # Connect to Database and create database session
-engine = create_engine('postgresql://itemcatalog.db',
+engine = create_engine('postgresql://catalog:123password@localhost/catalog',
                        encoding='utf8')
 Base.metadata.bind = engine
 

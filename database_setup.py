@@ -68,6 +68,6 @@ class Item(Base):
         }
 
 
-engine = create_engine('postgresql://itemcatalog.db', encoding='utf8')
+engine = create_engine('postgresql://catalog:123password@localhost/catalog', encoding='utf8')
 
 Base.metadata.create_all(engine)
