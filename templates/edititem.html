@@ -24,7 +24,7 @@
           {% for category in categories %}
             <div class="radio">
               <label>
-                <input type="radio" name="category" id="{{category.name}}" value="{{category.name}}">{{category.name}}
+                <input type="radio" name="category" id="{{category.name}}" value="{{category.name}}" {% if item.category.name == category.name %}checked{% endif %}>{{category.name}}
               </label>
             </div>
           {% endfor %}
