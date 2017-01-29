@@ -137,7 +137,9 @@ def newItem():
                                     category_name=item.category.name,
                                     item_name=item.name))
         else:
-            return render_template('newitem.html')
+            categories = session.query(Category).all()
+            return render_template('newitem.html',
+                                   categories=categories)
     else:
         flash("You must be logged in to create a new item")
         return redirect(url_for('showFront'))
