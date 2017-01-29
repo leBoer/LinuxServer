@@ -168,7 +168,9 @@ def editItem(item_name):
                                     item_name=item.name,
                                     item=item))
         else:
+            categories = session.query(Category).all()
             return render_template('edititem.html',
+                                   categories=categories,
                                    item_name=item.name,
                                    item=item)
     else:
