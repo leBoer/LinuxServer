@@ -22,12 +22,19 @@ h3 {
 	color: lightgrey;
 	line-height: 23px;
 }
+h4 {
+	margin: 0;
+}
  p {
  	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
  	font-size: 16px;
  	color: #7B7573;
- 	line-height: 24px;
+ 	line-height: 18px;
  	font-weight: 400;
+ 	overflow: hidden;
+ 	display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
  }
  a {
  	font-size: 14px;
@@ -46,6 +53,9 @@ body {
 
 .padding-none {
 	padding: 0;
+}
+.description {
+	font-size: 12px;
 }
 .btn {
 	padding: 20px;
