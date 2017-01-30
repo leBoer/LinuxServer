@@ -6,7 +6,7 @@
 h1 {
 	font-family: "Helvetica Neue Light", Roboto, Helvetica, Arial, sans-serif;
 	font-size: 50px;
-	color: #51453B;
+	color: #735c5c;
 	line-height: 60px;
 	font-weight: 300;
 }
@@ -19,7 +19,7 @@ h2 {
 
 h3 {
 	font-size: 18px;
-	color: #4A4A4A;
+	color: lightgrey;
 	line-height: 23px;
 }
  p {
@@ -34,6 +34,12 @@ h3 {
  	color: #0093B9;
  	line-height: 17px;
  }
+body {
+	background-color: darkgrey;
+	background-image: url("/static/background2.jpg");
+	background-repeat: no-repeat;
+	background-size: cover; 
+}
 .padding-top {
 	padding-top: 30px;
 }
@@ -80,15 +86,22 @@ h3 {
 .divider {
 	height: 15px;
 }
-.divider.green {
+/*.divider.green {
 	background-color: #9FB80A;
-}
+}*/
 .banner.menu {
 	height: 150px;
-	background-color: #E1E17F;
+/*	background-image: url("/static/banner_background.jpg");
+	background-repeat: no-repeat;
+	background-size: contain;*/
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0);
 }
 .banner h1 {
 	margin: 45px 0;
+}
+.list-group-item {
+	background: rgba(54, 25, 25, .5);
 }
 
 .flash {
