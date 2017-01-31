@@ -1,6 +1,6 @@
 from flask import (Flask, render_template, request, redirect,
                    jsonify, url_for, flash)
-
+from functools import wraps
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, Item, User
@@ -25,6 +25,18 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+# Check if the user is logged in
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'email' in login_session:
+            return f(*args, **kwargs)
+        else:
+            flash("You are not allowed to access this page")
+            return redirect('/login')
+    return decorated_function
 
 
 # JSON API's to view information
@@ -121,84 +133,74 @@ def showItem(category_name, item_name):
 
 # Lets a logged in user create a new item
 @app.route('/newitem', methods=['GET', 'POST'])
+@login_required
 def newItem():
-    if 'username' in login_session:
-        if request.method == 'POST':
-            category = session.query(Category).filter_by(
-                name=request.form['category']).one()
-            item = Item(name=request.form['name'],
-                        description=request.form['description'],
-                        category=category,
-                        user_id=login_session['user_id'])
-            session.add(item)
-            session.commit()
-            flash("New item %s successfully created" % item.name)
-            return redirect(url_for('showItem',
-                                    category_name=item.category.name,
-                                    item_name=item.name))
-        else:
-            categories = session.query(Category).all()
-            return render_template('newitem.html',
-                                   categories=categories)
+    if request.method == 'POST':
+        category = session.query(Category).filter_by(
+            name=request.form['category']).one()
+        item = Item(name=request.form['name'],
+                    description=request.form['description'],
+                    category=category,
+                    user_id=login_session['user_id'])
+        session.add(item)
+        session.commit()
+        flash("New item %s successfully created" % item.name)
+        return redirect(url_for('showItem',
+                                category_name=item.category.name,
+                                item_name=item.name))
     else:
-        flash("You must be logged in to create a new item")
-        return redirect(url_for('showFront'))
+        categories = session.query(Category).all()
+        return render_template('newitem.html',
+                               categories=categories)
 
 
 # Lets the creator of an item edit the item
 @app.route('/catalog/<item_name>/edit/', methods=['GET', 'POST'])
+@login_required
 def editItem(item_name):
     item = session.query(Item).filter_by(name=item_name).one()
-    if 'username' in login_session:
-        user_id = getUserId(login_session['email'])
-        if user_id != item.user_id:
-            flash('You are not the creator of this item')
-            return redirect(url_for('showFront'))
-        if request.method == 'POST' and user_id == item.user_id:
-            category = session.query(Category).filter_by(
-                name=request.form['category']).one()
-            item.name = request.form['name']
-            item.description = request.form['description']
-            item.category = category
-            session.add(item)
-            session.commit()
-            flash('Item has been successfully edited')
-            return redirect(url_for('showItem',
-                                    category_name=request.form['category'],
-                                    item_name=item.name,
-                                    item=item))
-        else:
-            categories = session.query(Category).all()
-            return render_template('edititem.html',
-                                   categories=categories,
-                                   item_name=item.name,
-                                   item=item)
+    user_id = getUserId(login_session['email'])
+    if user_id != item.user_id:
+        flash('You are not the creator of this item')
+        return redirect(url_for('showFront'))
+    if request.method == 'POST' and user_id == item.user_id:
+        category = session.query(Category).filter_by(
+            name=request.form['category']).one()
+        item.name = request.form['name']
+        item.description = request.form['description']
+        item.category = category
+        session.add(item)
+        session.commit()
+        flash('Item has been successfully edited')
+        return redirect(url_for('showItem',
+                                category_name=request.form['category'],
+                                item_name=item.name,
+                                item=item))
     else:
-        return render_template('item.html',
-                               item=item,
+        categories = session.query(Category).all()
+        return render_template('edititem.html',
+                               categories=categories,
                                item_name=item.name,
-                               category_name=item.category.name)
+                               item=item)
 
 
 # Lets the creator of an item delete it
 @app.route('/catalog/<item_name>/delete', methods=['GET', 'POST'])
+@login_required
 def deleteItem(item_name):
     item = session.query(Item).filter_by(name=item_name).one()
-    if 'username' in login_session:
-        user_id = getUserId(login_session['email'])
-        if user_id != item.user_id:
-            flash('You are not the creator of this item')
-            return redirect(url_for('showFront'))
-        if request.method == 'POST' and user_id == item.user_id:
-            session.delete(item)
-            session.commit()
-            flash("Item has been successfully deleted")
-            return redirect(url_for('showFront'))
-        else:
-            return render_template('deleteitem.html',
-                                   item=item)
-    else:
+    user_id = getUserId(login_session['email'])
+    if user_id != item.user_id:
+        flash('You are not the creator of this item')
         return redirect(url_for('showFront'))
+    if request.method == 'POST' and user_id == item.user_id:
+        session.delete(item)
+        session.commit()
+        flash("Item has been successfully deleted")
+        return redirect(url_for('showFront'))
+    else:
+        return render_template('deleteitem.html',
+                               item=item)
 
 
 @app.route('/login')

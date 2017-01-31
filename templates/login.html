@@ -7,6 +7,18 @@
   <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 </head>
 <body>
+  <div class = "flash">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+            
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
 <!-- FACEBOOK SIGN IN -->
 <script>
   window.fbAsyncInit = function() {
