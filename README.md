@@ -5,6 +5,7 @@ This is a simple item catalog application, similar to the one submitted for a pr
 1. IP Address: 52.27.112.205
 2. SSH Port: 2200
 3. Complete URL: [http://ec2-52-27-112-205.us-west-2.compute.amazonaws.com/](http://ec2-52-27-112-205.us-west-2.compute.amazonaws.com/)
+4. Password for user "grader" is "22438608"
 
 ## Software installed
 - apache2
