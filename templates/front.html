@@ -72,7 +72,7 @@
   {% for item in items %}
     <div class="col-sm-4 col-lg-4 col-md-4">
       <div class="thumbnail">
-        <img src="http://placehold.it/320x150" alt="">
+        <img src="/static/{{item.category.name}}.jpg" alt="">
         <div class="caption">
           <h4>{{item.category.name}}</h4>
           <h4><a href="{{ url_for('showItem', category_name=item.category.name, item_name=item.name) }}">{{item.name}}</a>
