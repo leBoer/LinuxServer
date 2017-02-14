@@ -15,7 +15,7 @@
 
   <div class="col-md-6 text-right">
     {% if 'username' not in session %}
-      <a href="{{ url_for('showLogin') }}">Login</a>
+      <a href="{{ url_for('showLogin') }}">Login with Facebook</a>
     {% else %}
       <a href="{{ url_for('disconnect') }}">Disconnect</a>
     {% endif %}  
