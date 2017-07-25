@@ -4,7 +4,7 @@ This is a simple item catalog application, similar to the one submitted for a pr
 ## Necessary information
 1. IP Address: 52.27.112.205
 2. SSH Port: 2200
-3. Complete URL: [http://whiskycatalog.hopto.org/](http://whiskycatalog.hopto.org/)
+3. Complete URL: [http://188.166.146.26/](Whisky Catalog)
 4. Password for user "grader" is "22438608"
 
 ## Software installed
